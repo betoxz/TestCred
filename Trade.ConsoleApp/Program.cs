@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Trade.Domain.TradeContext.Entities;
-using System.Text.Json.Serialization;
-using System.Text.Json;
 
 namespace Trade.ConsoleApp
 {
@@ -11,32 +10,43 @@ namespace Trade.ConsoleApp
     {
         static void Main(string[] args)
         {
+            string referenceDate = Console.ReadLine();
+
+            string numberTrades = Console.ReadLine();
+
             Portfolio portifolio = new Portfolio();
 
-            //Trades de entrada
-            portifolio.trades = new List<Trade.Domain.TradeContext.Entities.Trade>
-            {
-                new Domain.TradeContext.Entities.Trade(2000000, "Private", DateTime.Now),
-                new Domain.TradeContext.Entities.Trade(400000, "Public", DateTime.Now),
-                new Domain.TradeContext.Entities.Trade(500000, "Public", DateTime.Now),
-                new Domain.TradeContext.Entities.Trade(3000000, "Public", DateTime.Now)
-            };
+            portifolio.ReferenceDate = DateTime.ParseExact(referenceDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
 
-            var options = new JsonSerializerOptions
+            portifolio.trades = new List<Domain.TradeContext.Entities.Trade>();
+
+            var listTrades = new string[int.Parse(numberTrades)];
+
+            for (int i = 0; i < int.Parse(numberTrades); i++)
+                listTrades[i] = Console.ReadLine();
+
+            foreach (string s in listTrades)
             {
-                DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
-                WriteIndented = true
-            };
-            var TradesEntrada = JsonSerializer.Serialize(portifolio.trades, options);
-            Console.WriteLine("Trades de Entrada = {0}", TradesEntrada);
+                portifolio.trades.Add(MapInput(s));
+                Console.WriteLine(s);
+            }
 
             Console.WriteLine("\n");
-            //Resultado esperado
-            var Saida = JsonSerializer.Serialize(portifolio.getCategorias().ToList());
 
-            Console.WriteLine("Categorias de Saída = {0}", Saida);
+            foreach (var outPrint in portifolio.getCategorias().ToList())
+                Console.WriteLine(outPrint.ToString());
+
 
             Console.ReadKey();
+        }
+
+        private static Domain.TradeContext.Entities.Trade MapInput(string input)
+        {
+            var trd = input.Split(" ");
+
+            var trade = new Domain.TradeContext.Entities.Trade(double.Parse(trd[0]), trd[1], DateTime.ParseExact(trd[2], "MM/dd/yyyy", CultureInfo.InvariantCulture));
+
+            return trade;
         }
     }
 }

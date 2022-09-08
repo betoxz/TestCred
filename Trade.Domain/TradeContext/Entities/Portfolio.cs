@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Trade.Domain.TradeContext.Entities
 {
     public class Portfolio
     {
         public List<Trade> trades { get; set; }
+        public DateTime ReferenceDate { get; set; }
 
         private Categoria _categorias;
 
@@ -16,7 +15,7 @@ namespace Trade.Domain.TradeContext.Entities
             _categorias = new Categoria();
 
             foreach (Trade td in trades)
-                _categorias.Categorias.Add(td.getCateroria());
+                _categorias.Categorias.Add(td.getCateroria(this.ReferenceDate));
 
             return _categorias.Categorias;
         }

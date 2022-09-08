@@ -11,12 +11,7 @@ namespace Trade.Domain.TradeContext.Entities
         const double valorCorte = 1000000;
         public string getCategoria(double valor)
         {
-            if (valor < valorCorte)
-                return RiscoEnum.LowRisk.ToString().ToUpper();
-            else if (valor > valorCorte)
-                return RiscoEnum.MediumRisk.ToString().ToUpper();
-            else
-                return RiscoNaoImplementado.NotImplemented.ToString().ToUpper();
+            return valor > valorCorte ? RiscoEnum.MediumRisk.ToString().ToUpper() : RiscoEnum.HighRisk.ToString().ToUpper();
         }
     }
 }

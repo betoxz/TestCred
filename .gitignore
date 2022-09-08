@@ -3,3 +3,5 @@
 ################################################################################
 
 /Trade.Domain/obj
+/Trade.Domain/bin/Debug/netcoreapp3.1
+/Trade.Tests/obj/Debug/netcoreapp3.1

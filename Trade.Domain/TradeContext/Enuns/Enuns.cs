@@ -6,7 +6,6 @@ namespace Trade.Domain.TradeContext.Enuns
 {
     public enum SetorEnum { Private, Public }
 
-    public enum RiscoEnum { LowRisk, MediumRisk, HighRisk }
+    public enum RiscoEnum { MediumRisk, HighRisk, Expired }
 
-    public enum RiscoNaoImplementado { NotImplemented }
 }

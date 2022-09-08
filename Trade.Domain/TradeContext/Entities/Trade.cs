@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 using Trade.Domain.TradeContext.Enuns;
 using Trade.Domain.TradeContext.Intefaces;
 
@@ -11,7 +8,7 @@ namespace Trade.Domain.TradeContext.Entities
     {
         public double Value { get; private set; }
         public string ClientSector { get; private set; }
-        public DateTime NextPaymentDate { get; }
+        public DateTime NextPaymentDate { get; set;}
 
         public Trade(double valor, string clienteSetor, DateTime NextPaymentDate)
         {
@@ -20,11 +17,22 @@ namespace Trade.Domain.TradeContext.Entities
             this.NextPaymentDate = NextPaymentDate;
         }
 
-        public string getCateroria()
+        public string getCateroria(DateTime ReferenceDate)
         {
-            return (this.ClientSector.Equals(SetorEnum.Private.ToString())) ?
+            string retorno;
+
+            if (this.NextPaymentDate < ReferenceDate.AddDays(30))
+            {
+                retorno =  RiscoEnum.Expired.ToString().ToUpper();
+            }
+            else
+            {
+                retorno = this.ClientSector.Equals(SetorEnum.Private.ToString()) ?
                 new SetorPrivado().getCategoria(this.Value)
                 : new SetorPublico().getCategoria(this.Value);
+            }                
+
+            return retorno;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Trade.Domain.TradeContext.Entities
             if (valor > valorCorte)
                 return RiscoEnum.HighRisk.ToString().ToUpper();
             else
-                return RiscoNaoImplementado.NotImplemented.ToString().ToUpper();
+                return RiscoEnum.MediumRisk.ToString().ToUpper();
         }
     }
 }
